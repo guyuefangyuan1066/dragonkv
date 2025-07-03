@@ -1,0 +1,300 @@
+PS C:\Users\86175\Desktop\DKV\bin> .\dragonkv
+Starting performance test suite...
+
+===== Testing with different thread counts =====
+
+Running test with 1 threads...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          1
+Operations per thread: 150000
+Total operations:      150000
+Total duration:        448 ms
+Throughput:            334821 ops/sec
+Max thread throughput: 335570 ops/sec
+---------------------------------------------------------
+PUT operations:        59811 (success: 59811, 100.00%)
+GET operations:        75286 (success: 62063, 82.44%)
+REMOVE operations:     14903 (success: 12307, 82.58%)
+=========================================================
+
+Running test with 2 threads...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          2
+Operations per thread: 150000
+Total operations:      300000
+Total duration:        940 ms
+Throughput:            319148.94 ops/sec
+Max thread throughput: 159574.47 ops/sec
+---------------------------------------------------------
+PUT operations:        120058 (success: 120058, 100.00%)
+GET operations:        150017 (success: 122056, 81.36%)
+REMOVE operations:     29925 (success: 24446, 81.69%)
+=========================================================
+
+Running test with 4 threads...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          4
+Operations per thread: 150000
+Total operations:      600000
+Total duration:        2208 ms
+Throughput:            271739.13 ops/sec
+Max thread throughput: 67965.56 ops/sec
+---------------------------------------------------------
+PUT operations:        239703 (success: 239703, 100.00%)
+GET operations:        300377 (success: 242484, 80.73%)
+REMOVE operations:     59920 (success: 48223, 80.48%)
+=========================================================
+
+Running test with 8 threads...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        4580 ms
+Throughput:            262008.73 ops/sec
+Max thread throughput: 32758.24 ops/sec
+---------------------------------------------------------
+PUT operations:        479872 (success: 479872, 100.00%)
+GET operations:        600684 (success: 482827, 80.38%)
+REMOVE operations:     119444 (success: 95959, 80.34%)
+=========================================================
+
+Running test with 16 threads...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          16
+Operations per thread: 150000
+Total operations:      2400000
+Total duration:        9602 ms
+Throughput:            249947.93 ops/sec
+Max thread throughput: 15625.00 ops/sec
+---------------------------------------------------------
+PUT operations:        958802 (success: 958802, 100.00%)
+GET operations:        1201292 (success: 962164, 80.09%)
+REMOVE operations:     239906 (success: 192241, 80.13%)
+=========================================================
+
+Running test with 32 threads...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          32
+Operations per thread: 150000
+Total operations:      4800000
+Total duration:        20534 ms
+Throughput:            233758.64 ops/sec
+Max thread throughput: 7306.38 ops/sec
+---------------------------------------------------------
+PUT operations:        1920349 (success: 1920349, 100.00%)
+GET operations:        2399205 (success: 1920206, 80.04%)
+REMOVE operations:     480446 (success: 384520, 80.03%)
+=========================================================
+
+===== Testing with different read/write ratios =====
+
+Running test with read ratio: 0.10 (PUT: 0.72, REMOVE: 0.18)
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        10127 ms
+Throughput:            118495.11 ops/sec
+Max thread throughput: 14813.35 ops/sec
+---------------------------------------------------------
+PUT operations:        864328 (success: 864328, 100.00%)
+GET operations:        119835 (success: 96183, 80.26%)
+REMOVE operations:     215837 (success: 173075, 80.19%)
+=========================================================
+
+Running test with read ratio: 0.30 (PUT: 0.56, REMOVE: 0.14)
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        8524 ms
+Throughput:            140778.98 ops/sec
+Max thread throughput: 17597.37 ops/sec
+---------------------------------------------------------
+PUT operations:        672622 (success: 672622, 100.00%)
+GET operations:        360201 (success: 289060, 80.25%)
+REMOVE operations:     167177 (success: 134296, 80.33%)
+=========================================================
+
+Running test with read ratio: 0.50 (PUT: 0.40, REMOVE: 0.10)
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        5996 ms
+Throughput:            200133.42 ops/sec
+Max thread throughput: 25016.68 ops/sec
+---------------------------------------------------------
+PUT operations:        480123 (success: 480123, 100.00%)
+GET operations:        599545 (success: 481424, 80.30%)
+REMOVE operations:     120332 (success: 96821, 80.46%)
+=========================================================
+
+Running test with read ratio: 0.70 (PUT: 0.24, REMOVE: 0.06)
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        4300 ms
+Throughput:            279069.77 ops/sec
+Max thread throughput: 34891.84 ops/sec
+---------------------------------------------------------
+PUT operations:        288849 (success: 288849, 100.00%)
+GET operations:        839217 (success: 676552, 80.62%)
+REMOVE operations:     71934 (success: 58039, 80.68%)
+=========================================================
+
+Running test with read ratio: 0.90 (PUT: 0.08, REMOVE: 0.02)
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        2764 ms
+Throughput:            434153.40 ops/sec
+Max thread throughput: 54269.18 ops/sec
+---------------------------------------------------------
+PUT operations:        95878 (success: 95878, 100.00%)
+GET operations:        1080347 (success: 883363, 81.77%)
+REMOVE operations:     23775 (success: 19474, 81.91%)
+=========================================================
+
+===== Testing with different key space sizes =====
+
+Running test with key space: 100
+Prepopulating database with 100 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        4365 ms
+Throughput:            274914.09 ops/sec
+Max thread throughput: 34372.14 ops/sec
+---------------------------------------------------------
+PUT operations:        480053 (success: 480053, 100.00%)
+GET operations:        599764 (success: 479950, 80.02%)
+REMOVE operations:     120183 (success: 95953, 79.84%)
+=========================================================
+
+Running test with key space: 1000
+Prepopulating database with 1000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        5216 ms
+Throughput:            230061.35 ops/sec
+Max thread throughput: 28757.67 ops/sec
+---------------------------------------------------------
+PUT operations:        480054 (success: 480054, 100.00%)
+GET operations:        599467 (success: 479586, 80.00%)
+REMOVE operations:     120479 (success: 96235, 79.88%)
+=========================================================
+
+Running test with key space: 10000
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        6461 ms
+Throughput:            185729.76 ops/sec
+Max thread throughput: 23216.22 ops/sec
+---------------------------------------------------------
+PUT operations:        479734 (success: 479734, 100.00%)
+GET operations:        599677 (success: 480791, 80.17%)
+REMOVE operations:     120589 (success: 96744, 80.23%)
+=========================================================
+
+Running test with key space: 100000
+Prepopulating database with 100000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        8347 ms
+Throughput:            143764.23 ops/sec
+Max thread throughput: 17972.68 ops/sec
+---------------------------------------------------------
+PUT operations:        479693 (success: 479693, 100.00%)
+GET operations:        600350 (success: 499797, 83.25%)
+REMOVE operations:     119957 (success: 99794, 83.19%)
+=========================================================
+
+===== Testing with different value sizes =====
+
+Running test with value size: 10-50 bytes
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        5331 ms
+Throughput:            225098.48 ops/sec
+Max thread throughput: 28137.31 ops/sec
+---------------------------------------------------------
+PUT operations:        480675 (success: 480675, 100.00%)
+GET operations:        599102 (success: 480752, 80.25%)
+REMOVE operations:     120223 (success: 96681, 80.42%)
+=========================================================
+
+Running test with value size: 100-500 bytes
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        6498 ms
+Throughput:            184672.21 ops/sec
+Max thread throughput: 23087.58 ops/sec
+---------------------------------------------------------
+PUT operations:        479963 (success: 479963, 100.00%)
+GET operations:        599975 (success: 481887, 80.32%)
+REMOVE operations:     120062 (success: 96413, 80.30%)
+=========================================================
+
+Running test with value size: 1000-5000 bytes
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        7863 ms
+Throughput:            152613.51 ops/sec
+Max thread throughput: 19081.54 ops/sec
+---------------------------------------------------------
+PUT operations:        480368 (success: 480368, 100.00%)
+GET operations:        599766 (success: 482266, 80.41%)
+REMOVE operations:     119866 (success: 96222, 80.27%)
+=========================================================
+
+Performance test suite completed! Results saved to performance_report.txt
