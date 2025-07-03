@@ -1,0 +1,57 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": " build DKVt",
+            "command": "g++",
+            "args": [
+                // 编译参数
+                "-fdiagnostics-color=always",
+                "-g",
+                "-std=c++17",
+                "-I${workspaceFolder}/src", // 包含路径
+                "-I${workspaceFolder}/src/core",
+                "-I${workspaceFolder}/src/memory",
+                "-I${workspaceFolder}/src/network",
+                "-I${workspaceFolder}/src/network/protocol",
+                "-I${workspaceFolder}/src/storage",
+                "-I${workspaceFolder}/src/storage/index",
+                "-I${workspaceFolder}/src/storage/wal",
+                
+                // 源文件列表
+                "${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/src/app/command_dispatcher.cpp",
+                "${workspaceFolder}/src/core/reactor.cpp",
+                "${workspaceFolder}/src/core/thread_pool.cpp",
+                "${workspaceFolder}/src/memory/object_pool.cpp",
+                "${workspaceFolder}/src/memory/value_store.cpp",
+                "${workspaceFolder}/src/network/protocol/decoder.cpp",
+                "${workspaceFolder}/src/network/protocol/encoder.cpp",
+                "${workspaceFolder}/src/network/connection.cpp",
+                "${workspaceFolder}/src/storage/index/index_manager.cpp",
+                "${workspaceFolder}/src/storage/index/skip_list.cpp",
+                "${workspaceFolder}/src/storage/wal/wal_writer.cpp",
+                "${workspaceFolder}/src/storage/engine.cpp",
+                
+                // 输出设置
+                "-o",
+                "${workspaceFolder}/bin/dragonkv.exe",
+                
+                // 链接参数
+                "-lws2_32" // Windows 网络库
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "编译器: C:\\MinGW\\bin\\g++.exe"
+        }
+    ]
+}
