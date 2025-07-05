@@ -10,6 +10,7 @@ public:
     ValueStore(ObjectPool& pool) : pool_(pool){}
     ValueMeta put(const std::string& value);
     std::string get(const ValueMeta& meta);
+    void* writer_str(const void* data, size_t length);
     void remove(const ValueMeta& meta);
 
 private:

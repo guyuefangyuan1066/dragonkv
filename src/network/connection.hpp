@@ -1,6 +1,7 @@
 #ifndef CONNECTION_HPP
 #define CONNECTION_HPP
 #include"../core/MPMCQueue.hpp"
+#include"../memory/value_store.hpp"
 #include"../../include/dragonkv/common.hpp"
 #include"protocol/decoder.hpp"
 #include"protocol/encoder.hpp"
@@ -13,13 +14,13 @@
 #include <windows.h>
 #include<deque>
 //MPMCQueue<RequestItem, 256> requestQueue;
-
+class ValueStore; 
 class Connection {
     
     RequestQueue& request_queue_; 
 public:
 
-    Connection(int id, SOCKET sock, HANDLE iocp, RequestQueue& request_queue,Decoder& decoder,Encoder& encoder);
+    Connection(int id, SOCKET sock, HANDLE iocp, RequestQueue& request_queue,Decoder& decoder,Encoder& encoder,ValueStore& valStore);
     ~Connection();
 
     void start();                                                      // 启动首次读
@@ -33,12 +34,11 @@ public:
     std::atomic<bool> isAlive() const;
     HANDLE getiocp() const;
     bool dequeEmpty()const;
-    void postRecv();                                                       // 投递读
+    void postRecv();                                                       
     void postSend(); 
     void addRPCResponse(RPCResponse& mess); 
     
-private:
-                         // 投递写
+private:                        
 
     int id_;
     SOCKET socket_;
@@ -51,6 +51,7 @@ private:
     std::deque<RPCResponse>dqe1_;
     Decoder& decoder_;
     Encoder& encoder_;
+    ValueStore& valStore_;
 };
 
 

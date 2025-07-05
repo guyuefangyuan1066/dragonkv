@@ -67,7 +67,7 @@ std::ostream& operator<<(std::ostream& os, CommandType type);
     struct OverlappedEx {
         OVERLAPPED overlapped;
         OperationType type;
-        char buffer[4096];
+        char buffer[2048];
 
         OverlappedEx(OperationType t) : type(t) {
             memset(&overlapped, 0, sizeof(overlapped));

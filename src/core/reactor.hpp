@@ -18,7 +18,7 @@
 
 class IOCPReactor {
 public:
-    IOCPReactor(int threadCount ,RequestQueue& qe,Decoder& decoder_);
+    IOCPReactor(int threadCount ,RequestQueue& qe,Decoder& decoder_,Encoder& encoder_, ValueStore& valStore);
     ~IOCPReactor();
 
     bool start(unsigned short port);                // 启动监听 + 线程
@@ -37,6 +37,8 @@ private:
     std::atomic<int> nextConnId_{1};
     RequestQueue& qe_; 
     Decoder& decoder_;
+    Encoder& encoder_;
+    ValueStore& valStore_;
 };
 
 #endif

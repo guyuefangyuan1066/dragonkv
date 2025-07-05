@@ -107,9 +107,8 @@ public:
         return true;
     }
 
-    // 出队操作 (多消费者)
+        // 出队操作 (多消费者)
     bool dequeue(T& item) {
-        // 消费者获取一个读取“票据”或“序列号”
         size_t pos = dequeue_pos_.load(std::memory_order_relaxed); // (1) 消费者预读取当前位置
         size_t cell_index;
         Cell<T>* cell;
@@ -119,36 +118,48 @@ public:
             cell = &buffer_[cell_index];
             size_t cell_sequence = cell->sequence.load(std::memory_order_acquire); // (2) 消费者读取槽位的序列号
 
-            long diff = (long)cell_sequence - (long)(pos + 1); // 判断槽位状态 (期望值是 pos + 1)
+            // 期望的序列号应该是 pos + 1，表示该槽位有数据，且是当前出队位置对应的数据
+            long diff = (long)cell_sequence - (long)(pos + 1);
 
-            if (diff == 0) { // 槽位序列号与期望的读取序列号匹配，表示该槽位是已写入的，可读取
-                // (3) 尝试原子地将自己的读取位置从 pos 更新为 pos + 1
-                if (dequeue_pos_.compare_exchange_weak(pos, pos + 1, std::memory_order_relaxed)) {
-                    break; // 成功预订槽位
+            if (diff == 0) { // 槽位序列号与期望的读取序列号匹配，表示该槽位有数据，可读取
+                // (3) 尝试原子地将自己的读取位置从 pos 更新为 pos + 1。
+                // 只有成功执行 CAS 的线程，才真正获得了处理这个 'pos' 对应的槽位的权利。
+                if (dequeue_pos_.compare_exchange_weak(pos, pos + 1, std::memory_order_acquire, std::memory_order_relaxed)) {
+                    // 成功预订槽位。此时，当前线程对 'pos' 所对应的 cell 拥有独占权。
+                    // 没有其他消费者会尝试读取这个 'pos' 值的同一个 cell。
+                    break; // 成功获得槽位处理权，跳出循环进行数据操作
                 }
-                // 如果CAS失败，说明其他消费者已经抢先，pos被更新，需要重新循环
-            } else if (diff < 0) { // cell_sequence < pos + 1, 队列已空，或乱序
-                // 队列已空，或遇到了一个还未被生产者写入的槽位
-                // 此时，pos 应该就是 enqueue_pos_ 的值，表明队列已空
-                if (pos >= enqueue_pos_.load(std::memory_order_relaxed)) {
+                // 如果 CAS 失败，说明其他消费者已经抢先，'pos' 会被更新，需要重新循环。
+            } else if (diff < 0) { // cell_sequence < pos + 1, 说明队列为空，或者数据还没准备好
+                // 这意味着生产者还没有写入这个槽位 (cell_sequence 等于 pos)，
+                // 或者该槽位在之前的循环中已经被消费了 (cell_sequence 更小，如 pos - Capacity)。
+                // 检查队列是否真的为空（或者从当前 'pos' 看起来为空）。
+                if (pos >= enqueue_pos_.load(std::memory_order_acquire)) {
                     return false; // 队列已空
                 }
-                // 如果不是真正空，可能存在竞争，重新尝试
-                pos = dequeue_pos_.load(std::memory_order_relaxed); // 重新读取最新pos
-                std::this_thread::yield(); // 退让
-            } else { // diff > 0, cell_sequence > pos + 1, 应该不会发生，除非是多消费者下的乱序
-                // 消费者清空槽位过快
+                // 如果不是真正空，可能是竞态条件，重新读取 'pos' 并重试。
+                pos = dequeue_pos_.load(std::memory_order_relaxed);
+                std::this_thread::yield(); // 退让，避免忙等待
+            } else { // diff > 0, cell_sequence > pos + 1.
+                // 这通常表示一个生产者可能已经越界写入了，或者一个消费者非常快地处理了并更新了序列号。
+                // 简单地重新读取 'pos' 并重试，以追上最新的状态。
                 pos = dequeue_pos_.load(std::memory_order_relaxed);
                 std::this_thread::yield();
             }
         }
 
-        // 此时，pos 是当前消费者成功预订的读取位置
-        // (4) 从数据区移动或拷贝数据
-        item = std::move(*(cell->data_ptr())); // 优先使用移动语义
-        cell->data_ptr()->~T(); // 手动调用T的析构函数
+        // 执行到这里，`pos` 是当前线程成功使 `dequeue_pos_` 前进到的值。
+        // 我们对 `cell_index` 处的槽位拥有独占权，可以安全地进行数据操作。
 
-        // (5) 更新槽位序列号，让生产者可见（下次写此槽位时期望的序列号是 pos + Capacity）
+        // (4) 复制/移动数据到输出参数
+        item = std::move(*(cell->data_ptr()));
+
+        // (5) 销毁原始对象，释放其资源
+        cell->data_ptr()->~T();
+
+        // (6) 更新槽位序列号，将其标记为“空”，并为下一次循环复用准备好。
+        // 槽位的序列号应更新为 'pos + Capacity'。
+        // 这使得该槽位可以再次被新的数据使用，特别是当环形缓冲区“绕回”时。
         cell->sequence.store(pos + Capacity, std::memory_order_release);
         return true;
     }
@@ -169,10 +180,4 @@ private:
     CACHELINE_ALIGNED std::atomic<size_t> dequeue_pos_{0};  // 下一个消费者尝试读取的逻辑序列号
     const size_t capacity_mask_ = Capacity - 1; // 用于高效取模运算
 };
-
-// --- 使用示例 (概念性) ---
-// // Request 队列
-// MPMCQueue<RequestItem, 256> requestQueue;
-// // Response 队列
-// MPMCQueue<ResponsePackage, 256> responseQueue;
 #endif

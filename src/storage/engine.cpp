@@ -88,3 +88,7 @@ void StorageEngine::recover(uint64_t maxTimestamp ){
         }
     }
 }
+
+ValueStore& StorageEngine::get_valStore() const{
+    return *valStore_;
+}

@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "g++.exe - 生成和调试活动文件",
+            "name": "仅调试已编译的 dragonkv.exe",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/dragonkv.exe",
@@ -12,15 +12,7 @@
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "为 gdb 启用整齐打印",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "C/C++: g++.exe build active project"
+            "miDebuggerPath": "D:\\MSVC\\ucrt64\\bin\\gdb.exe"
         }
     ]
 }

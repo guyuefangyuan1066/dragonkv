@@ -20,3 +20,10 @@ std::string ValueStore::get(const ValueMeta& meta) {
 void ValueStore::remove(const ValueMeta& meta) {
     pool_.deallocate(meta.dataPtr);
 }
+void* ValueStore::writer_str(const void* data, size_t length) {
+    if (length == 0) {
+        return nullptr;
+    }
+    void* mem = pool_.allocate(length);
+    return mem;
+}

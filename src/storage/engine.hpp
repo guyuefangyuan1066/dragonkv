@@ -23,6 +23,7 @@ public:
     bool remove(const std::string& key);
     // 加载恢复 WAL 日志（在构造函数或手动触发）
     void recover(uint64_t maxTimestamp = UINT64_MAX);
+    ValueStore& get_valStore() const;
 private:
     std::unique_ptr<WALWriter> wal_;
     std::unique_ptr<IndexManager> index_;

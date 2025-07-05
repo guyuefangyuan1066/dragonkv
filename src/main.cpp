@@ -1,6 +1,6 @@
 //cd bin
 //.\dragonkv
-
+//telnet 127.0.0.1 50000
 
 #include <iostream>
 #include <string>
@@ -34,7 +34,7 @@ void signal_handler(int signal) {
     }
 }
 
-using RequestQueue = MPMCQueue<reque, 1024>;
+
 
 int main() {
     // 设置信号处理
@@ -49,8 +49,8 @@ int main() {
     std::cout << "RequestQueue start...\n";
     RequestQueue qe;
     std::cout << "thread start...\n";
-    IOCPReactor* IO = new IOCPReactor(2, qe, d);
-    WorkerThreadPool* work = new WorkerThreadPool(8, qe, app, e);
+    IOCPReactor* IO = new IOCPReactor(1, qe, d,e,SE->get_valStore());
+    WorkerThreadPool* work = new WorkerThreadPool(8, qe, app,IO->getiocp());
     std::cout << "thread start over...\n";
     IO->start(50000);
     work->start();
@@ -65,10 +65,6 @@ int main() {
 
     std::cout << "Stopping server...\n";
 
-    // 优雅关闭服务
-    // 停止顺序通常是：先停止新的请求进入 (网络层不再accept)，
-    // 然后等待现有请求处理完毕 (工作线程池停止)，
-    // 最后清理网络层和存储层。
     work->stop(); // 通知工作线程池停止，并等待其线程join
     IO->stop();   // 通知网络层停止，并清理连接等
 

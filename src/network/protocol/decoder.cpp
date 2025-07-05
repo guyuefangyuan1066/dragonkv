@@ -204,7 +204,10 @@ std::vector<RPCRequest> Decoder::parseAllAvailableRequests() {
             break; 
         } else { // DecodeResultType::ERROR
             // 遇到协议错误，通常需要清空缓冲区并通知调用者（这里通过 std::cerr）
-            std::cerr << "Decoding Error: " << result.errorMessage << std::endl;
+            //std::cerr << "Decoding Error: " << result.errorMessage << std::endl;
+            std::cout << "Buffer content: " << std::string(buffer_.begin(), buffer_.end()) << std::endl;
+            RPCRequest errorRequest={CommandType::UNKNOWN, "", std::nullopt};
+            parsedRequests.push_back(std::move(errorRequest)); // 添加一个错误请求到结果中
             buffer_.clear(); // 清空所有数据，避免错误蔓延
             current_parse_offset = 0; // 重置偏移量
             break; // 遇到错误就停止当前批次的解析

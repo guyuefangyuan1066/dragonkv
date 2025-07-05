@@ -10,28 +10,57 @@ void Connection::handleRead(OverlappedEx* ov,size_t n){
             dqe_.push_back({this,ret[i]});
         }
     }
-    delete ov;
+    //delete ov;
+    ov->~OverlappedEx(); // 手动析构
+    valStore_.remove({ov, sizeof(OverlappedEx), 0}); // 归还内存池
 }
-void Connection::handleWrite(OverlappedEx* ov,size_t n){
-    if(n==0){
+void Connection::handleWrite(OverlappedEx* ov, size_t n) {
+    if (n == 0) {
         close();
-    }else{
-        
+    } else {
+        // 检查是否还有待发送的数据
+        std::lock_guard<std::mutex> lock(mx_dqe1_);
+        if (!dqe1_.empty()) {
+            postSend(); // 继续发送剩余数据
+        }
+    }
+    //delete ov;
+    ov->~OverlappedEx(); // 手动析构
+    valStore_.remove({ov, sizeof(OverlappedEx), 0}); // 归还内存池
+}
+void Connection::handqueuefull(OverlappedEx* ov) {
+    while (!dqe_.empty() && !request_queue_.full()) {
+        request_queue_.enqueue(dqe_.front());
+        dqe_.pop_front();
+    }
+    // 如果还有剩余，继续通知 IOCP
+    if (!dqe_.empty()) {
+        ULONG_PTR keys = reinterpret_cast<ULONG_PTR>(this);
+        OverlappedEx* ov_buffer = new OverlappedEx(OperationType::QUEUE_SPACE_AVAILABLE);
+        PostQueuedCompletionStatus(iocp_, 0, keys, reinterpret_cast<LPOVERLAPPED>(ov_buffer));
     }
     delete ov;
 }
-void Connection::handqueuefull(OverlappedEx* ov){
-    auto& p =dqe_.front();
-    
-}
 
 void Connection::postRecv(){
-
-    OverlappedEx* ov_ex = new OverlappedEx(OperationType::READ);
+    //OverlappedEx* ov_ex = new OverlappedEx(OperationType::READ);
+    void* mem = valStore_.writer_str(nullptr, sizeof(OverlappedEx));
+    if(mem==nullptr){
+        // 分配失败，处理错误
+        close();
+        return;
+    }
+    OverlappedEx* ov_ex = new (mem) OverlappedEx(OperationType::READ);
+    if (ov_ex == nullptr) {
+        std::cerr << "Failed to allocate memory for OverlappedEx\n";
+        close();
+        return;
+    }
     if (!ov_ex) {
         close();
         return;
     }
+
     WSABUF buf;
     buf.buf = ov_ex->buffer;
     buf.len = sizeof(ov_ex->buffer);
@@ -50,7 +79,19 @@ void Connection::postRecv(){
 
  
 void Connection::postSend() {
-    OverlappedEx* ov_ex = new OverlappedEx(OperationType::WRITE);
+    //OverlappedEx* ov_ex = new OverlappedEx(OperationType::WRITE);
+    void* mem = valStore_.writer_str(nullptr, sizeof(OverlappedEx));
+    if(mem==nullptr){
+        // 分配失败，处理错误
+        close();
+        return;
+    }
+    OverlappedEx* ov_ex = new (mem) OverlappedEx(OperationType::WRITE);
+    if (ov_ex == nullptr) {
+        std::cerr << "Failed to allocate memory for OverlappedEx\n";
+        close();
+        return;
+    }
     std::deque<RPCResponse>load;
     {
         std::lock_guard<std::mutex> lock(mx_dqe1_);
@@ -104,8 +145,12 @@ void Connection::start(){
     postRecv();
 }
 void Connection::close(){
-    alive_.store(false,std::memory_order_acquire);
-    closesocket(socket_);
+    if(alive_.load(std::memory_order_acquire)){
+        alive_.store(false,std::memory_order_release);
+        closesocket(socket_);
+    }else{
+        std::cout<<"Connection already closed."<<std::endl;
+    }
 }
 int Connection::getId() const{
     return id_;
@@ -124,9 +169,9 @@ bool Connection::dequeEmpty()const{
 }
 
 
-Connection::Connection(int id, SOCKET sock, HANDLE iocp, RequestQueue& request_queue,Decoder& decoder,Encoder& encoder):id_(id), socket_(sock), iocp_(iocp), request_queue_(request_queue),
+Connection::Connection(int id, SOCKET sock, HANDLE iocp, RequestQueue& request_queue,Decoder& decoder,Encoder& encoder,ValueStore& valStore):id_(id), socket_(sock), iocp_(iocp), request_queue_(request_queue),
       decoder_(decoder), 
-      alive_(true) ,encoder_(encoder)
+      alive_(true) ,encoder_(encoder),valStore_(valStore)
 {}
 Connection::~Connection(){
     close();
