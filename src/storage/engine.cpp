@@ -8,12 +8,10 @@ StorageEngine::StorageEngine(const std::string& walPath){
 }
 
 StorageEngine::~StorageEngine() {
-    //std::cout<<"~StorageEngine()\n";
     // 1. 停止WAL写入线程
     if (wal_) {
         wal_->close(); // 添加停止方法
     }
-    //std::cout<<"wal_->close()\n";
     // 2. 释放资源
     valStore_.reset();
     index_.reset();
@@ -34,9 +32,9 @@ bool StorageEngine::put(const std::string& key, const std::string& value){
             valStore_->remove(oldMeta);  
         }
         index_->put(key, newMeta);
-        if(!wal_->append(key, value) && DEBUG){
-            std::cout<<"wal_append error!\n";
-        }
+         if(!wal_->append(key, value) && DEBUG){
+             std::cout<<"wal_append error!\n";
+         }
         return true;
     }
     valStore_->remove(newMeta);

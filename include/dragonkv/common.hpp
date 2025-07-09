@@ -1,7 +1,7 @@
 #ifndef DRAGONKV_COMMON_HPP
 #define DRAGONKV_COMMON_HPP
 
-
+#include<string>
 #include <mswsock.h>
 #include <windows.h>
 #include <cstdint>
@@ -36,16 +36,8 @@ struct RequestMessage {
     Connection* clientFd;                         // 标识连接
     RPCRequest request;
 };
-
-struct ResponseMessage {
-    Connection* clientFd;
-    RPCResponse response;
-};
-
-
-
 using RequestQueue = MPMCQueue<RequestMessage, 1024>;
-using ResponseQueue = MPMCQueue<ResponseMessage, 1024>;
+using walQueue = MPMCQueue<std::string, 1024>;
 enum class OperationType { READ, WRITE,QUEUE_SPACE_AVAILABLE };
 
 

@@ -25,7 +25,7 @@ void SlabAllocator::deallocate(void* ptr){
         printf("error in SlabAllocator::deallocate\n");
     }
     std::lock_guard<std::mutex> lock(slabMutex_);
-    if(freeList_.size()>1000){
+    if(freeList_.size()>=10000){
         ::free(ptr); // 释放回系统
         --totalBlocks_;
     }else{

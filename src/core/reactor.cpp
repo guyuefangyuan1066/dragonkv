@@ -124,6 +124,7 @@ void IOCPReactor::runLoop() {
         if (ov->type == OperationType::READ) {
             conn->handleRead(ov,bytesTransferred);
         } else if (ov->type == OperationType::WRITE) {
+            
             conn->handleWrite(ov,bytesTransferred);
         }else if(ov->type==OperationType::QUEUE_SPACE_AVAILABLE){
             conn->handqueuefull( ov);

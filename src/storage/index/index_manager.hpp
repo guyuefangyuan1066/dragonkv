@@ -4,11 +4,24 @@
 
 #include <string>
 #include <functional>
+#include <shared_mutex>
 #include "../../../include/dragonkv/common.hpp"
 
 class SkipList;  
 
 class IndexManager {
+    static const int kShardCount = 8;
+
+    struct Shard {
+        mutable std::shared_mutex mutex;
+        SkipList* skiplist;
+    };
+
+    std::array<Shard, kShardCount> shards;
+
+    size_t hashKey(const std::string& key) const {
+        return std::hash<std::string>{}(key) % kShardCount;
+    }
 public:
     IndexManager();
     ~IndexManager();
@@ -20,7 +33,7 @@ public:
     void forEach(std::function<void(const std::string&, const ValueMeta&)> func) const;
 
 private:
-    SkipList* skipList_;  
+    //SkipList* skipList_;  
 };
 
 #endif
