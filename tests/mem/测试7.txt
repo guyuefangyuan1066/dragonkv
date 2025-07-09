@@ -1,0 +1,352 @@
+Starting performance tests...
+Starting performance test suite...
+
+===== Testing with different thread counts =====
+
+Running test with 1 threads...
+Starting performance test with 1 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225126.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          1
+Operations per thread: 150000
+Total operations:      150000
+Total duration:        400 ms
+Throughput:            375000 ops/sec
+Max thread throughput: 378788 ops/sec
+---------------------------------------------------------
+PUT operations:        60155 (success: 60155, 100.00%)
+GET operations:        74742 (success: 61701, 82.55%)
+REMOVE operations:     15103 (success: 12505, 82.80%)
+=========================================================
+
+Running test with 2 threads...
+Starting performance test with 2 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225127.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          2
+Operations per thread: 150000
+Total operations:      300000
+Total duration:        816 ms
+Throughput:            367647.06 ops/sec
+Max thread throughput: 184501.85 ops/sec
+---------------------------------------------------------
+PUT operations:        120287 (success: 120287, 100.00%)
+GET operations:        149691 (success: 121844, 81.40%)
+REMOVE operations:     30022 (success: 24384, 81.22%)
+=========================================================
+
+Running test with 4 threads...
+Starting performance test with 4 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225128.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          4
+Operations per thread: 150000
+Total operations:      600000
+Total duration:        1626 ms
+Throughput:            369003.69 ops/sec
+Max thread throughput: 92478.42 ops/sec
+---------------------------------------------------------
+PUT operations:        240111 (success: 240111, 100.00%)
+GET operations:        300151 (success: 242386, 80.75%)
+REMOVE operations:     59738 (success: 48167, 80.63%)
+=========================================================
+
+Running test with 8 threads...
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225130.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        3363 ms
+Throughput:            356824.26 ops/sec
+Max thread throughput: 44802.87 ops/sec
+---------------------------------------------------------
+PUT operations:        480948 (success: 480948, 100.00%)
+GET operations:        599164 (success: 481629, 80.38%)
+REMOVE operations:     119888 (success: 96195, 80.24%)
+=========================================================
+
+Running test with 16 threads...
+Starting performance test with 16 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225133.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          16
+Operations per thread: 150000
+Total operations:      2400000
+Total duration:        6958 ms
+Throughput:            344926.70 ops/sec
+Max thread throughput: 21648.15 ops/sec
+---------------------------------------------------------
+PUT operations:        959543 (success: 959543, 100.00%)
+GET operations:        1200155 (success: 961762, 80.14%)
+REMOVE operations:     240302 (success: 193084, 80.35%)
+=========================================================
+
+Running test with 32 threads...
+Starting performance test with 32 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225141.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          32
+Operations per thread: 150000
+Total operations:      4800000
+Total duration:        13840 ms
+Throughput:            346820.81 ops/sec
+Max thread throughput: 10883.76 ops/sec
+---------------------------------------------------------
+PUT operations:        1920350 (success: 1920350, 100.00%)
+GET operations:        2399745 (success: 1920765, 80.04%)
+REMOVE operations:     479905 (success: 383997, 80.02%)
+=========================================================
+
+===== Testing with different read/write ratios =====
+
+Running test with read ratio: 0.10 (PUT: 0.72, REMOVE: 0.18)
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225155.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        6148 ms
+Throughput:            195185.43 ops/sec
+Max thread throughput: 24469.82 ops/sec
+---------------------------------------------------------
+PUT operations:        863688 (success: 863688, 100.00%)
+GET operations:        119932 (success: 96085, 80.12%)
+REMOVE operations:     216380 (success: 173571, 80.22%)
+=========================================================
+
+Running test with read ratio: 0.30 (PUT: 0.56, REMOVE: 0.14)
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225201.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        4826 ms
+Throughput:            248653.13 ops/sec
+Max thread throughput: 31198.00 ops/sec
+---------------------------------------------------------
+PUT operations:        670699 (success: 670699, 100.00%)
+GET operations:        361244 (success: 289577, 80.16%)
+REMOVE operations:     168057 (success: 134741, 80.18%)
+=========================================================
+
+Running test with read ratio: 0.50 (PUT: 0.40, REMOVE: 0.10)
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225206.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        3620 ms
+Throughput:            331491.71 ops/sec
+Max thread throughput: 41562.76 ops/sec
+---------------------------------------------------------
+PUT operations:        480241 (success: 480241, 100.00%)
+GET operations:        599824 (success: 481779, 80.32%)
+REMOVE operations:     119935 (success: 96258, 80.26%)
+=========================================================
+
+Running test with read ratio: 0.70 (PUT: 0.24, REMOVE: 0.06)
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225210.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        2293 ms
+Throughput:            523331.88 ops/sec
+Max thread throughput: 65588.11 ops/sec
+---------------------------------------------------------
+PUT operations:        287816 (success: 287816, 100.00%)
+GET operations:        839913 (success: 676194, 80.51%)
+REMOVE operations:     72271 (success: 58211, 80.55%)
+=========================================================
+
+Running test with read ratio: 0.90 (PUT: 0.08, REMOVE: 0.02)
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225213.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        936 ms
+Throughput:            1282051.28 ops/sec
+Max thread throughput: 160771.70 ops/sec
+---------------------------------------------------------
+PUT operations:        96251 (success: 96251, 100.00%)
+GET operations:        1079516 (success: 881998, 81.70%)
+REMOVE operations:     24233 (success: 19657, 81.12%)
+=========================================================
+
+===== Testing with different key space sizes =====
+
+Running test with key space: 100
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225214.log
+Creating storage engine...
+Prepopulating database with 100 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        2525 ms
+Throughput:            475247.52 ops/sec
+Max thread throughput: 59713.38 ops/sec
+---------------------------------------------------------
+PUT operations:        481005 (success: 481005, 100.00%)
+GET operations:        598977 (success: 478981, 79.97%)
+REMOVE operations:     120018 (success: 96021, 80.01%)
+=========================================================
+
+Running test with key space: 1000
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225217.log
+Creating storage engine...
+Prepopulating database with 1000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        2947 ms
+Throughput:            407193.76 ops/sec
+Max thread throughput: 51124.74 ops/sec
+---------------------------------------------------------
+PUT operations:        480746 (success: 480746, 100.00%)
+GET operations:        599984 (success: 481427, 80.24%)
+REMOVE operations:     119270 (success: 95562, 80.12%)
+=========================================================
+
+Running test with key space: 10000
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225220.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        3739 ms
+Throughput:            320941.43 ops/sec
+Max thread throughput: 40171.40 ops/sec
+---------------------------------------------------------
+PUT operations:        480610 (success: 480610, 100.00%)
+GET operations:        599807 (success: 482673, 80.47%)
+REMOVE operations:     119583 (success: 96215, 80.46%)
+=========================================================
+
+Running test with key space: 100000
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225224.log
+Creating storage engine...
+Prepopulating database with 100000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        5316 ms
+Throughput:            225733.63 ops/sec
+Max thread throughput: 28253.91 ops/sec
+---------------------------------------------------------
+PUT operations:        478680 (success: 478680, 100.00%)
+GET operations:        600984 (success: 500101, 83.21%)
+REMOVE operations:     120336 (success: 100337, 83.38%)
+=========================================================
+
+===== Testing with different value sizes =====
+
+Running test with value size: 10-50 bytes
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225229.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        3068 ms
+Throughput:            391134.29 ops/sec
+Max thread throughput: 48923.68 ops/sec
+---------------------------------------------------------
+PUT operations:        480264 (success: 480264, 100.00%)
+GET operations:        599784 (success: 481684, 80.31%)
+REMOVE operations:     119952 (success: 96306, 80.29%)
+=========================================================
+
+Running test with value size: 100-500 bytes
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225233.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        4091 ms
+Throughput:            293326.81 ops/sec
+Max thread throughput: 36683.79 ops/sec
+---------------------------------------------------------
+PUT operations:        480406 (success: 480406, 100.00%)
+GET operations:        599189 (success: 481129, 80.30%)
+REMOVE operations:     120405 (success: 96817, 80.41%)
+=========================================================
+
+Running test with value size: 1000-5000 bytes
+Starting performance test with 8 threads, 150000 operations each.
+Rolling file to: ../log_perf_test/wal_20250706_225237.log
+Creating storage engine...
+Prepopulating database with 10000 keys...
+
+================ Performance Test Results ================
+Thread count:          8
+Operations per thread: 150000
+Total operations:      1200000
+Total duration:        4621 ms
+Throughput:            259684.05 ops/sec
+Max thread throughput: 32665.51 ops/sec
+---------------------------------------------------------
+PUT operations:        479787 (success: 479787, 100.00%)
+GET operations:        600333 (success: 481809, 80.26%)
+REMOVE operations:     119880 (success: 96249, 80.29%)
+=========================================================

@@ -39,7 +39,11 @@ struct RequestMessage {
 using RequestQueue = MPMCQueue<RequestMessage, 1024>;
 using walQueue = MPMCQueue<std::string, 1024>;
 enum class OperationType { READ, WRITE,QUEUE_SPACE_AVAILABLE };
-
+struct WriteContext {
+    OVERLAPPED overlapped{};
+    char* buffer;
+    HANDLE file;
+};
 
 
 

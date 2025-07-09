@@ -67,7 +67,7 @@ public:
         while (true) {
             cell_index = pos & capacity_mask_; 
             cell = &buffer_[cell_index];
-            size_t cell_sequence = cell->sequence.load(std::memory_order_acquire); 
+            size_t cell_sequence = cell->sequence.load(std::memory_order_release); 
 
             long diff = (long)cell_sequence - (long)pos; 
             //std::cout<<diff<<"\n";
@@ -94,7 +94,7 @@ public:
 
         // 出队操作 (多消费者)
     bool dequeue(T& item) {
-        size_t pos = dequeue_pos_.load(std::memory_order_relaxed); 
+        size_t pos = dequeue_pos_.load(std::memory_order_acquire); 
         size_t cell_index;
         Cell<T>* cell;
 
