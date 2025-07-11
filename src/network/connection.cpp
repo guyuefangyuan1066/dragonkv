@@ -1,7 +1,6 @@
 #include"connection.hpp"
 //读回调函数，处理接收到的信息
 void Connection::handleRead(OverlappedEx* ov,size_t n){
-    std::cout<<"handleRead called with n="<<n<<"\n";
     decoder_.appendData(ov->buffer,n);
     auto ret =decoder_.parseAllAvailableRequests();
     for(int i=0;i<ret.size();++i){
@@ -16,10 +15,7 @@ void Connection::handleRead(OverlappedEx* ov,size_t n){
             dqe_.push_back({this,ret[i]});
         }
     }
-    //delete ov;
-    std::cout<<"ov->~OverlappedEx();\n";
     ov->~OverlappedEx(); // 手动析构
-    std::cout<<" valStore_.remove({ov, sizeof(OverlappedEx), 0});\n";
     valStore_.remove({ov, sizeof(OverlappedEx), 0}); // 归还内存池
 }
 void Connection::handleWrite(OverlappedEx* ov, size_t n) {
